@@ -12,11 +12,11 @@ import * as FormData from 'form-data';
 export class ImplementosController {
 
   private imagenesDefault = {
-    "FUTBOL":`${envs.gatewayHost}/files/implementos/futbolDefecto.jpeg`,
-    "BASKET":`${envs.gatewayHost}/files/implementos/basketDefecto.jpg`,
-    "VOLEY":`${envs.gatewayHost}/files/implementos/voleyDefecto.jpeg`,
-    "TENIS":`${envs.gatewayHost}/files/implementos/tenisDefecto.jpg`,
-    "PING_PONG":`${envs.gatewayHost}/files/implementos/pingPongDefecto.jpg`,
+    "FUTBOL":`futbolDefecto.jpeg`,
+    "BASKET":`basketDefecto.jpg`,
+    "VOLEY":`voleyDefecto.jpeg`,
+    "TENIS":`tenisDefecto.jpg`,
+    "PING_PONG":`pingPongDefecto.jpg`,
   }
   constructor( 
     @Inject(IMPLEMENTOS_SERVICE) private readonly implementosCliente:ClientProxy
@@ -27,7 +27,7 @@ export class ImplementosController {
   async create(@Body() createImplementoDto: CreateImplementoDto, 
               @UploadedFile() imagen: Express.Multer.File) {
     try {
-      // console.log( imagen );
+      console.log( imagen );
       if(imagen){
         const formData = new FormData();
         formData.append('imagen', imagen.buffer, {
@@ -37,7 +37,7 @@ export class ImplementosController {
         const resposnse = await axios.post(`${envs.gatewayHost}/files/implementos`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data' 
-          }
+          } 
         });
         createImplementoDto.imagen = resposnse.data
       }else{
@@ -53,8 +53,15 @@ export class ImplementosController {
   }
 
   @Get()
-  findAll() {
-    return this.implementosCliente.send('findAllImplemento',{});
+  async findAll() {
+    const implementos = await this.implementosCliente.send('findAllImplemento',{}).toPromise();
+    const implementosTransformados = implementos.map(implemento => {
+      return {
+        ...implemento,
+        imagen: `${envs.gatewayHost}/files/implementos/${implemento.imagen}`
+      };
+    });
+    return implementosTransformados
   }
 
   @Get(':id')

@@ -18,10 +18,10 @@ export class EspaciosController {
 
   @Post()
   @UseInterceptors(FileInterceptor("imagen"))
-  async create(@Body() createEspacioDto: CreateEspacioDto, 
+  async create(@Body() createEspacioDto: any, 
               @UploadedFile() imagen: Express.Multer.File) {
     try {
-      // console.log( imagen );
+      console.log(createEspacioDto);
       if(imagen){
         const formData = new FormData();
         formData.append('imagen', imagen.buffer, {
@@ -50,7 +50,6 @@ export class EspaciosController {
   async findAll() {
     const espacios = await this.espaciosCliente.send('findAllEspacios', {}).toPromise();
 
-    // Usar map para transformar los espacios y añadir la URL completa de la imagen
     const espaciosTransformados = espacios.map(espacio => {
       return {
         ...espacio,
@@ -71,6 +70,26 @@ export class EspaciosController {
   }
   return implemento
   
+}
+
+@Get('d/:disciplina')
+  async findBy(@Param('disciplina') disciplina: string) {
+  
+  const espacios = await this.espaciosCliente.send('findSpacesDiscipline', disciplina).toPromise();
+  
+  if (!espacios){
+    throw new NotFoundException("Producto no encontrado"); 
+  }
+
+
+  const espaciosTransformados = espacios.map(espacio => {
+      return {
+        ...espacio,
+        imagen: `${envs.gatewayHost}/files/espacios/${espacio.imagen}`
+      };
+    });
+
+    return espaciosTransformados;
 }
 
 @Patch(':id')
@@ -94,6 +113,12 @@ async update(
       });
       updateImplementoDto.imagen = response.data;
     } 
+    if (typeof updateImplementoDto.estado === 'string') {
+      updateImplementoDto.estado = updateImplementoDto.estado === 'true';
+    }
+    if (typeof updateImplementoDto.disponible === 'string') {
+      updateImplementoDto.disponible = updateImplementoDto.disponible === 'true';
+    }
 
     return this.espaciosCliente.send('updateEspacio', { id, ...updateImplementoDto });
   } catch (error) {

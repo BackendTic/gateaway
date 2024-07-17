@@ -5,11 +5,11 @@ export class CreateEspacioDto {
     nombre: string
 
     @IsOptional()
-    @IsBoolean()
+    // @IsBoolean()
     disponible?: boolean = true
     
     @IsOptional()
-    @IsBoolean()
+    // @IsBoolean()
     estado?: boolean = true
 
     @IsEnum(TipoEspacioList, {

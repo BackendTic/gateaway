@@ -2,15 +2,19 @@
 export enum TipoImplemento{
     BASKET="BASKET",
     FUTBOL="FUTBOL",
-    PING_PONG="PING_PONG",
     TENNIS="TENNIS",
     VOLEY="VOLEY",
+    FUTBOL_SALA="FUTBOL_SALA",
+    OTROS="OTROS",
+    ATLETISMO="ATLETISMO"
 }
 
 export const TipoImplementoList = [
     TipoImplemento.BASKET,
     TipoImplemento.FUTBOL,
-    TipoImplemento.PING_PONG,
+    TipoImplemento.OTROS,
     TipoImplemento.TENNIS,
     TipoImplemento.VOLEY,
+    TipoImplemento.FUTBOL_SALA,
+    TipoImplemento.ATLETISMO
 ]

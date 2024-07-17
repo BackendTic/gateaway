@@ -35,6 +35,16 @@ $ yarn install
 ## Running the app
 
 ```bash
+# docker ejecution
+$ docker-compose up -d
+
+# Prisma
+$ npx prisma init
+
+cambia el url de la base de datos en .env
+
+$ yarn add @prisma/client
+
 # development
 $ yarn run start
 
@@ -43,19 +53,6 @@ $ yarn run start:dev
 
 # production mode
 $ yarn run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
 ```
 
 ## Support

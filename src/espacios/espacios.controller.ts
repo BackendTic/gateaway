@@ -21,7 +21,7 @@ export class EspaciosController {
   async create(@Body() createEspacioDto: any, 
               @UploadedFile() imagen: Express.Multer.File) {
     try {
-      console.log(createEspacioDto);
+      //console.log(createEspacioDto);
       if(imagen){
         const formData = new FormData();
         formData.append('imagen', imagen.buffer, {
@@ -34,7 +34,7 @@ export class EspaciosController {
           }
         });
         createEspacioDto.imagen = resposnse.data
-        console.log(createEspacioDto);
+        //console.log(createEspacioDto);
       }
       else{
         throw new BadRequestException("Verifique que envio la imagen"); 
@@ -64,7 +64,7 @@ export class EspaciosController {
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
   
   const implemento = await this.espaciosCliente.send('findOneEspacio', id).toPromise();
-  console.log(implemento);
+  //console.log(implemento);
   if (!implemento){
     throw new NotFoundException("Producto no encontrado"); 
   }

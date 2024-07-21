@@ -44,7 +44,7 @@ export class ImplementosController {
     @Body() createImplementoDto: CreateImplementoDto,
     @UploadedFile() imagen: Express.Multer.File,
   ) {
-    console.log(createImplementoDto);
+    // console.log(createImplementoDto);
     try {
       if (imagen) {
         const formData = new FormData();
@@ -95,7 +95,7 @@ export class ImplementosController {
     const implemento = await this.implementosCliente
       .send('findOneImplemento', id)
       .toPromise();
-    console.log(implemento);
+    // console.log(implemento);
     if (!implemento) {
       throw new NotFoundException('Producto no encontrado');
     }

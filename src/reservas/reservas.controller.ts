@@ -66,7 +66,7 @@ export class ReservasController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateReservaDto: UpdateReservaDto) {
-    console.log(updateReservaDto);
+    //console.log(updateReservaDto);
     return this.reservasCliente.send("updateReserva",{ id, ...updateReservaDto});
   }
 

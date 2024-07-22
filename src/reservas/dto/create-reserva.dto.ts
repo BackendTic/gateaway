@@ -1,6 +1,6 @@
 
 import { Transform } from "class-transformer";
-import { IsBoolean, IsDate, IsEnum, IsInt, IsOptional, IsString, IsUUID, isBoolean } from "class-validator"
+import { IsBoolean, IsDate, IsEnum, IsIn, IsInt, IsOptional, IsString, IsUUID, isBoolean } from "class-validator"
 import { EstadoReserva } from "../enum/reservas.enum";
 
 export class CreateReservaDto {
@@ -44,10 +44,23 @@ export class CreateReservaDto {
     @IsBoolean()
     isAdmin: Boolean
 
+    @IsString()
+    nombreReserva:string
+
+    @IsBoolean()
+    esEvento: boolean
+
+    @IsOptional()
+    @IsInt()
+    horaFin: number
+
     constructor(partial: Partial<CreateReservaDto>) {
       Object.assign(this, partial);
       if (!this.estado) {
         this.estado = EstadoReserva.Activa; // Establecer el valor por defecto si no se proporciona
+      }
+      if(this.horaFin){
+        this.horaFin = this.horaInicio //por defecto la horaFin es horaInicio
       }
     }
 

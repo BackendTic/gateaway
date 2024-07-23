@@ -20,4 +20,26 @@ export class FilesService {
 
     return path
   }
+
+  findInformationImage(name:string){
+    const path = join(__dirname, '../../static/informacion', name)
+    if(!existsSync(path))
+      throw new BadRequestException("Imagen no encontrada")
+    return path
+  }
+
+  findNewsImage(name:string){
+    const path = join(__dirname, '../../static/noticias', name)
+    if(!existsSync(path))
+      throw new BadRequestException("Imagen no encontrada")
+    return path
+  }
+
+  findRepresentanteImage(name:string){
+    const path = join(__dirname, '../../static/representantes', name)
+    if(!existsSync(path))
+      throw new BadRequestException("Imagen no encontrada")
+    return path
+  }
+
 }

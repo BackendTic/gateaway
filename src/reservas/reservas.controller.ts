@@ -198,7 +198,7 @@ export class ReservasController {
           contentType: imagen.mimetype,
         });
         const response = await axios.post(
-          `${envs.gatewayHost}/files/information`,
+          `${envs.gatewayHost}/files/informacion`,
           formData,
           {
             headers: {

@@ -13,6 +13,8 @@ import {
   BadRequestException,
   ParseUUIDPipe,
   NotFoundException,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { CreateReservaDto } from './dto/create-reserva.dto';
 import { UpdateReservaDto } from './dto/update-reserva.dto';
@@ -32,10 +34,15 @@ export class ReservasController {
   ) {}
 
   @Post()
-  create(@Body() createReservaDto: CreateReservaDto) {
-    return this.reservasCliente.send('createReserva', createReservaDto);
+  async create(@Body() createReservaDto: CreateReservaDto) {
+    try {
+      return await this.reservasCliente.send('createReserva', createReservaDto).toPromise();
+    } catch (error) {
+      // Manejar y retransmitir excepciones aquí si es necesario
+      throw new HttpException(error.message || 'Internal Server Error', HttpStatus.BAD_REQUEST);
+    }
   }
-
+  
   @Get('/timeSlots')
   async findBetweenDatesAndSpace(
     @Query('espacioId') espacioId: string,
